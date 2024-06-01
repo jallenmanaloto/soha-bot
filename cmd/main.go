@@ -3,16 +3,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/jallenmanaloto/soha-bot/internal/database"
+	// "github.com/jallenmanaloto/soha-bot/internal/database"
 	"github.com/jallenmanaloto/soha-bot/internal/server"
+	"github.com/jallenmanaloto/soha-bot/pkg/logger"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	db := database.New()
+	if err := godotenv.Load(); err != nil {
+		panic("Error: unable to load env variables")
+	}
+	// db := database.New()
 
+	logger.Log.Info("Starting Application")
 	server := server.NewServer()
 	err := server.ListenAndServe()
 	if err != nil {
 		panic(fmt.Sprintf("Unable to start server: %s", err))
 	}
+
+	logger.Log.Info("Server started...")
 }
