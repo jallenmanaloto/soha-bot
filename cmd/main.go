@@ -16,12 +16,13 @@ func main() {
 	}
 	// db := database.New()
 
-	logger.Log.Info("Starting Application")
+	logger.Log.Info("INFO starting Application")
 	server := server.NewServer()
 	err := server.ListenAndServe()
 	if err != nil {
-		panic(fmt.Sprintf("Unable to start server: %s", err))
+		logger.Log.Errorf("ERROR unable to start server: %v\n", err)
+		return
 	}
 
-	logger.Log.Info("Server started...")
+	logger.Log.Info("INFO server started...")
 }
