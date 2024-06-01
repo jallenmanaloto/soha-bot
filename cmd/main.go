@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 
 	// "github.com/jallenmanaloto/soha-bot/internal/database"
 	"github.com/jallenmanaloto/soha-bot/internal/server"
