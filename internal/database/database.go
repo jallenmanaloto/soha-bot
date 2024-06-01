@@ -2,10 +2,10 @@ package database
 
 import (
 	"context"
-	"log"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
 type Service struct {
@@ -25,7 +25,7 @@ func New() *Service {
 		config.WithRegion("ap-southeast-1"),
 	)
 	if err != nil {
-		log.Fatalf("Unable to load AWS sdk config: %v", err)
+		logger.Log.Errorf("ERROR Unable to load AWS SDK config: %v\n", err)
 	}
 
 	ddbClient := dynamodb.NewFromConfig(cfg)

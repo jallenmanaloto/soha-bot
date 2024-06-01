@@ -2,8 +2,9 @@ package server
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
+
+	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
 func (s *Server) RegisterRoutes() http.Handler {
@@ -20,7 +21,7 @@ func (s *Server) Health(w http.ResponseWriter, r *http.Request) {
 	}
 	res, err := json.Marshal(healthStat)
 	if err != nil {
-		log.Fatalf("Error handling marshal of health status: %v", err)
+		logger.Log.Errorf("ERROR unable to marshal health status: %v\n", err)
 	}
 
 	_, _ = w.Write(res)

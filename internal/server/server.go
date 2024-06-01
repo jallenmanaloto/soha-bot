@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
 type Server struct {
@@ -13,7 +15,11 @@ type Server struct {
 }
 
 func NewServer() *http.Server {
-	port, _ := strconv.Atoi(os.Getenv("PORT"))
+	port, err := strconv.Atoi(os.Getenv("PORT"))
+	if err != nil {
+		logger.Log.Errorf("ERROR unable to convert PORT to string: %v\n", err)
+	}
+
 	NewServer := &Server{
 		port: port,
 	}

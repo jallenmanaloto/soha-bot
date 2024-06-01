@@ -11,7 +11,8 @@ import (
 
 func main() {
 	if err := godotenv.Load(); err != nil {
-		panic("Error: unable to load env variables")
+		logger.Log.Errorf("ERROR unable to load env variables: %v\n", err)
+		return
 	}
 	// db := database.New()
 
