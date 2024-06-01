@@ -5,6 +5,8 @@ go 1.22.1
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.16
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.32.6
+	github.com/joho/godotenv v1.5.1
+	github.com/sirupsen/logrus v1.9.3
 )
 
 require (
@@ -22,4 +24,5 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.28.10 // indirect
 	github.com/aws/smithy-go v1.20.2 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	golang.org/x/sys v0.12.0 // indirect
 )
