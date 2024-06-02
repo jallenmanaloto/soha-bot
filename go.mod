@@ -3,15 +3,15 @@ module github.com/jallenmanaloto/soha-bot
 go 1.22.1
 
 require (
+	github.com/aws/aws-sdk-go-v2 v1.27.0
 	github.com/aws/aws-sdk-go-v2/config v1.27.16
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.32.6
-	github.com/aws/aws-sdk-go-v2/service/ssm v1.50.4
+	github.com/bwmarrin/discordgo v0.28.1
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3
 )
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.27.0 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.16 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.3 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.7 // indirect
@@ -24,6 +24,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.24.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.28.10 // indirect
 	github.com/aws/smithy-go v1.20.2 // indirect
+	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	golang.org/x/crypto v0.0.0-20210421170649-83a5a9bb288b // indirect
 	golang.org/x/sys v0.12.0 // indirect
 )
