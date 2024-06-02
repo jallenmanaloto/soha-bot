@@ -3,6 +3,7 @@ package logger
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -71,10 +72,10 @@ func (h *LokiHook) Levels() []logrus.Level {
 var Log *logrus.Logger
 
 func init() {
-
 	if err := godotenv.Load(); err != nil {
 		panic("Error: unable to load env variables")
 	}
+
 	Log = logrus.New()
 	Log.SetLevel(logrus.InfoLevel)
 	lokiLogUrl := os.Getenv("LOKI_LOG_URL")
