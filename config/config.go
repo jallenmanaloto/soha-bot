@@ -25,7 +25,6 @@ func NewClientConfig() {
 func LoadEnvironmentVariables() {
 	parameters := []string{"PORT", "LOKI_LOG_URL", "LOKI_USERNAME", "LOKI_PASSWORD"}
 	svc := ssm.NewFromConfig(Config)
-	fmt.Printf("svc val: %v\n", svc)
 
 	for _, parameter := range parameters {
 		paramOut, err := svc.GetParameter(context.TODO(), &ssm.GetParameterInput{

@@ -1,10 +1,8 @@
 package main
 
 import (
-
-	// "github.com/jallenmanaloto/soha-bot/internal/database"
-
 	"github.com/jallenmanaloto/soha-bot/config"
+	// "github.com/jallenmanaloto/soha-bot/internal/database"
 	"github.com/jallenmanaloto/soha-bot/internal/server"
 	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 	"github.com/joho/godotenv"
