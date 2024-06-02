@@ -5,6 +5,7 @@ go 1.22.1
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.16
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.32.6
+	github.com/aws/aws-sdk-go-v2/service/ssm v1.50.4
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3
 )
