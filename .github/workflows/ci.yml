@@ -20,5 +20,5 @@ jobs:
       run: docker build -t soha-bot .
     - name: Push latest image
       run: |
-        docker tag soha alleeeeenm/soha-bot:latest
+        docker tag soha-bot alleeeeenm/soha-bot:latest
         docker push alleeeeenm/soha-bot:latest
