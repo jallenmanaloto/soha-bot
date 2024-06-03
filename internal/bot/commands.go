@@ -26,7 +26,6 @@ func Hello(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 	title := utils.ExtractTitle(param)
-	database.SearchManhwa(title)
 
 	manhwas, err := database.SearchManhwa(title)
 	if err != nil {
@@ -65,4 +64,8 @@ func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
 		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessage)
 		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 	}
+}
+
+func Watch(s *discordgo.Session, m *discordgo.MessageCreate) {
+
 }
