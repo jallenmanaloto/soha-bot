@@ -5,6 +5,7 @@ import "strings"
 func ExtractTitle(param []string) string {
 	p := param[2:]
 	title := strings.Join(p, " ")
+	title = strings.ToLower(title)
 	return title
 }
 
