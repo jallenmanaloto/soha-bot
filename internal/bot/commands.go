@@ -23,9 +23,9 @@ func Hello(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
-	look := "`look:` this command followed by a title ex: `!soha look -title-`, will ask Soha to look for a manhwa."
-	fetch := "`fetch:` Soha will fetch all the titles he is watching for any latest chapters."
-	watch := "`watch:` this command followed by a title ex: `!soha watch -title-`, will ask Soha to watch out for new chapters."
+	look := "`!soha look <title>:` Soha to look for a manhwa with that title."
+	fetch := "`!soha fetch:` Soha will fetch all the titles he is watching for any latest chapters."
+	watch := "`!soha watch <title>:` Soha will watch out for new chapters for the title."
 	tricks := fmt.Sprintf(
 		"Soha's tricks or command displays things he can do.\nYou can call out to Soha with `!soha` followed by your command\n\n%s\n\n%s\n\n%s",
 		look,
