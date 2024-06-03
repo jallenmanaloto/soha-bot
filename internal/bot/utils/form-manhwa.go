@@ -17,6 +17,7 @@ func FormServerManhwa(manhwa models.Manhwa, gid string, chId string) models.Serv
 		SK:       servrSK,
 		ChanId:   chId,
 		ServerId: gid,
+		Title:    manhwa.Title,
 	}
 	return *serverManhwa
 }
