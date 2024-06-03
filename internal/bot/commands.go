@@ -40,18 +40,15 @@ func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 }
 
 func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
-	look := "`!soha look <title>:` Soha to look for a manhwa with that title."
-	fetch := "`!soha fetch:` Soha will fetch all the titles he is watching for any latest chapters."
-	watch := "`!soha watch <title>:` Soha will watch out for new chapters for the title."
 	tricks := fmt.Sprintf(
-		"Soha's tricks or command displays things he can do.\nYou can call out to Soha with `!soha` followed by your command\n\n%s\n\n%s\n\n%s",
-		look,
-		fetch,
-		watch,
+		constants.MessageTricks,
+		constants.MessageLook,
+		constants.MessageFetch,
+		constants.MessageWatch,
 	)
 
 	embed := discordgo.MessageEmbed{
-		Title:       "**Soha's tricks and quirks**",
+		Title:       constants.MessageTricksEmbedTitle,
 		Description: tricks,
 	}
 	_, err := s.ChannelMessageSendEmbed(m.ChannelID, &embed)
