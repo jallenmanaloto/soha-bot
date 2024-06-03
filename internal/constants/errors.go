@@ -4,6 +4,7 @@ package constants
 const (
 	DiscordUnexpectedHandler = "ERROR An unexpected error occured. Try again later."
 	ErrorDiscordMessage      = "ERROR unable to send message to channel."
+	ErrorDiscordMessageSend  = "arf! Something unexpected happened. Give me treats for now you 'lil shit."
 )
 
 // Dynamo DB Errors
