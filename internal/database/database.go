@@ -83,7 +83,6 @@ func SearchManhwas(exprName string, value string, op string) ([]models.Manhwa, e
 		return nil, err
 	}
 
-	logger.Log.Infof("Inputs: %s, %s", value, exprName)
 	for _, item := range response.Items {
 		var manhwa models.Manhwa
 		err = attributevalue.UnmarshalMap(item, &manhwa)
