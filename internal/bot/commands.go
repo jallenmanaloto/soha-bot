@@ -32,7 +32,7 @@ func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 
 	manhwas, err := database.SearchManhwa(title)
 	if err != nil {
-		_, err := s.ChannelMessageSend(m.ChannelID, constants.DiscordUnexpectedHandler)
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
 		if err != nil {
 			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 		}
@@ -45,7 +45,7 @@ func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 		result := utils.EmbedManhwa(manhwa.Chapters, manhwa.Title, manhwa.Url, thumbnail)
 		_, err := s.ChannelMessageSendEmbed(m.ChannelID, &result)
 		if err != nil {
-			_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessage)
+			_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
 			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 		}
 	}
