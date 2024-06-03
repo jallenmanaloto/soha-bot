@@ -10,6 +10,8 @@ const (
 // Dynamo DB Errors
 const (
 	ErrorBuildExpression = "ERROR unable to build new scan expression: %v\n"
+	ErrorMarshalItem     = "ERROR failed to marshal item: %v\n"
 	ErrorScan            = "ERROR failed to search manhwa via Scan: %v\n"
 	ErrorUnmarshalItem   = "ERROR failed to unmarshal item: %v\n"
+	ErrorPutItem         = "ERROR failed to put item: %v\n"
 )
