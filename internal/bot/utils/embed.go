@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/jallenmanaloto/soha-bot/internal/constants"
 )
 
 func EmbedThumbnail(image string) discordgo.MessageEmbedThumbnail {
@@ -15,11 +17,11 @@ func EmbedThumbnail(image string) discordgo.MessageEmbedThumbnail {
 	return thumbnail
 }
 
-func EmbedManhwa(chapter string, name string, url string, thumbnail discordgo.MessageEmbedThumbnail) discordgo.MessageEmbed {
+func EmbedManhwa(uid string, chapter string, name string, url string, thumbnail discordgo.MessageEmbedThumbnail) discordgo.MessageEmbed {
 	manhwa := discordgo.MessageEmbed{
 		Title:       strings.ToTitle(name),
 		URL:         url,
-		Description: chapter,
+		Description: fmt.Sprintf(constants.EmbedManhwaDesc, uid, chapter),
 		Image:       (*discordgo.MessageEmbedImage)(&thumbnail),
 	}
 	return manhwa
