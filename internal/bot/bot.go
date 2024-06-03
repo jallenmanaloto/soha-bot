@@ -26,7 +26,6 @@ func New(db *database.Service) (*DiscordBot, error) {
 		db:      db,
 	}
 
-	// put commands as handler
 	sess.AddHandler(bot.commands)
 
 	sess.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
