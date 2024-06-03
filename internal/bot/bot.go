@@ -50,6 +50,7 @@ func (b *DiscordBot) commands(s *discordgo.Session, m *discordgo.MessageCreate) 
 	case constants.Hello:
 		Hello(s, m)
 	case constants.Look:
+		Look(s, m, message)
 	default:
 		Default(s, m)
 	}
