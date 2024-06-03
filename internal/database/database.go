@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	cfg "github.com/jallenmanaloto/soha-bot/config"
 	"github.com/jallenmanaloto/soha-bot/internal/constants"
+	"github.com/jallenmanaloto/soha-bot/internal/database/utils"
 	"github.com/jallenmanaloto/soha-bot/models"
 	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
@@ -37,16 +38,36 @@ func New() *Service {
 	return dbInstance
 }
 
-func SearchManhwa(title string) ([]models.Manhwa, error) {
+func CreateServerManhwa(serverManhwa models.ServerManhwa) error {
+	item, err := attributevalue.MarshalMap(serverManhwa)
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorMarshalItem, err)
+		return err
+	}
+
+	_, err = dbInstance.db.PutItem(context.TODO(), &dynamodb.PutItemInput{
+		TableName: aws.String(dbInstance.TableName),
+		Item:      item,
+	})
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorPutItem, err)
+		return err
+	}
+	return nil
+}
+
+func SearchManhwas(exprName string, value string, op string) ([]models.Manhwa, error) {
 	var manhwas []models.Manhwa
 	var err error
+	var filtEx expression.ConditionBuilder
 	var response *dynamodb.ScanOutput
 
 	input := &dynamodb.ScanInput{
 		TableName: aws.String(dbInstance.TableName),
 	}
 
-	filtEx := expression.Name("Title").Contains(title)
+	// filtEx := expression.Name("Title").Contains(value)
+	filtEx = utils.GenerateFilterExpression(exprName, value, op)
 	expr, err := expression.NewBuilder().WithFilter(filtEx).Build()
 	if err != nil {
 		logger.Log.Errorf(constants.ErrorBuildExpression, err)
@@ -62,6 +83,7 @@ func SearchManhwa(title string) ([]models.Manhwa, error) {
 		return nil, err
 	}
 
+	logger.Log.Infof("Inputs: %s, %s", value, exprName)
 	for _, item := range response.Items {
 		var manhwa models.Manhwa
 		err = attributevalue.UnmarshalMap(item, &manhwa)
