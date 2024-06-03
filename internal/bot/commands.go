@@ -26,8 +26,7 @@ func Hello(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 	title := utils.ExtractTitle(param)
-
-	manhwas, err := database.SearchManhwa(title)
+	manhwas, err := database.SearchManhwas("Title", title, constants.CONTAINS)
 	if err != nil {
 		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
 		if err != nil {
@@ -35,10 +34,18 @@ func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 		}
 	}
 
+	if manhwas == nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.MessageManhwaNotExist)
+		if err != nil {
+			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+		}
+		return
+	}
+
 	for _, manhwa := range manhwas {
 		image := utils.ExtractUrl(manhwa.Image)
 		thumbnail := utils.EmbedThumbnail(image)
-		result := utils.EmbedManhwa(manhwa.Chapters, manhwa.Title, manhwa.Url, thumbnail)
+		result := utils.EmbedManhwa(manhwa.ID, manhwa.Chapters, manhwa.Title, manhwa.Url, thumbnail)
 		_, err := s.ChannelMessageSendEmbed(m.ChannelID, &result)
 		if err != nil {
 			_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
@@ -61,11 +68,24 @@ func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	_, err := s.ChannelMessageSendEmbed(m.ChannelID, &embed)
 	if err != nil {
-		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessage)
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
 		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 	}
 }
 
-func Watch(s *discordgo.Session, m *discordgo.MessageCreate) {
+func Watch(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
+	uid := utils.ExtractTitle(param)
+	manhwa, err := database.SearchManhwas("ID", uid, constants.EQUALTO)
+	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
+		logger.Log.Error(err)
+	}
 
+	servrManhwa := utils.FormServerManhwa(manhwa[0], m.GuildID, m.ChannelID)
+	err = database.CreateServerManhwa(servrManhwa)
+	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
+		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+	}
+	_, err = s.ChannelMessageSend(m.ChannelID, constants.MessageWatchSuccess)
 }
