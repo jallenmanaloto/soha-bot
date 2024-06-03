@@ -7,7 +7,7 @@ const (
 	Fetch   = "fetch"
 	Hello   = "hello"
 	Look    = "look"
-	Prefix  = "!test"
+	Prefix  = "!soha"
 	Tricks  = "tricks"
 )
 
