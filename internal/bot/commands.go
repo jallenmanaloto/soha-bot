@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/jallenmanaloto/soha-bot/internal/bot/utils"
 	"github.com/jallenmanaloto/soha-bot/internal/constants"
 	"github.com/jallenmanaloto/soha-bot/internal/database"
 	"github.com/jallenmanaloto/soha-bot/pkg/logger"
@@ -36,7 +37,18 @@ func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 		}
 	}
-	logger.Log.Infof("Manhwa values: %v\n", manhwas)
+
+	for _, manhwa := range manhwas {
+		imgSplit := strings.SplitAfter(manhwa.Image, "(webp)/")
+		image := imgSplit[1]
+		thumbnail := utils.EmbedThumbnail(image)
+		result := utils.EmbedManhwa(manhwa.Chapters, manhwa.Title, manhwa.Url, thumbnail)
+		_, err := s.ChannelMessageSendEmbed(m.ChannelID, &result)
+		if err != nil {
+			_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessage)
+			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+		}
+	}
 }
 
 func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -53,6 +65,7 @@ func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	_, err := s.ChannelMessageSendEmbed(m.ChannelID, &embed)
 	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessage)
 		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 	}
 }
