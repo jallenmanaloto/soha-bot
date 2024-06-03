@@ -2,7 +2,6 @@ package bot
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/jallenmanaloto/soha-bot/internal/bot/utils"
@@ -26,8 +25,7 @@ func Hello(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
-	p := param[2:]
-	title := strings.Join(p, " ")
+	title := utils.ExtractTitle(param)
 	database.SearchManhwa(title)
 
 	manhwas, err := database.SearchManhwa(title)
@@ -39,8 +37,7 @@ func Look(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 	}
 
 	for _, manhwa := range manhwas {
-		imgSplit := strings.SplitAfter(manhwa.Image, "(webp)/")
-		image := imgSplit[1]
+		image := utils.ExtractUrl(manhwa.Image)
 		thumbnail := utils.EmbedThumbnail(image)
 		result := utils.EmbedManhwa(manhwa.Chapters, manhwa.Title, manhwa.Url, thumbnail)
 		_, err := s.ChannelMessageSendEmbed(m.ChannelID, &result)
