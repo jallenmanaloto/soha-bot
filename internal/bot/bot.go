@@ -51,6 +51,8 @@ func (b *DiscordBot) commands(s *discordgo.Session, m *discordgo.MessageCreate) 
 		Hello(s, m)
 	case constants.Look:
 		Look(s, m, message)
+	case constants.Watch:
+		Watch(s, m, message)
 	default:
 		Default(s, m)
 	}
