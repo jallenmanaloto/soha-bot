@@ -9,6 +9,7 @@ const (
 	Look    = "look"
 	Prefix  = "!soha"
 	Tricks  = "tricks"
+	Wathc   = "watch"
 )
 
 // Command messages
