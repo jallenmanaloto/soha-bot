@@ -76,3 +76,47 @@ func SearchManhwas(exprName string, value string, op string) ([]models.Manhwa, e
 
 	return manhwas, nil
 }
+
+func SearchSubscribedToManhwa(manhwaId string) ([]models.ServerManhwa, error) {
+	var serverManhwas []models.ServerManhwa
+	var err error
+	var response *dynamodb.ScanOutput
+
+	input := &dynamodb.ScanInput{
+		TableName: aws.String(dbInstance.TableName),
+	}
+
+	filtEx := expression.And(
+		expression.Name("PK").Equal(expression.Value("SERVER")),
+		expression.BeginsWith(expression.Name("SK"), "SERVER#"),
+		expression.Name("TitleId").Equal(expression.Value(manhwaId)),
+	)
+	expr, err := expression.NewBuilder().WithFilter(filtEx).Build()
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorBuildExpression, err)
+		return nil, err
+	}
+	input.ExpressionAttributeValues = expr.Values()
+	input.ExpressionAttributeNames = expr.Names()
+	input.FilterExpression = expr.Filter()
+
+	response, err = dbInstance.db.Scan(context.Background(), input)
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorScan, err)
+		return nil, err
+	}
+
+	for _, item := range response.Items {
+		var serverManhwa models.ServerManhwa
+
+		err = attributevalue.UnmarshalMap(item, &serverManhwa)
+		if err != nil {
+			logger.Log.Errorf(constants.ErrorUnmarshalItem, err)
+			return nil, err
+		}
+
+		serverManhwas = append(serverManhwas, serverManhwa)
+	}
+
+	return serverManhwas, nil
+}
