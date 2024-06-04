@@ -42,6 +42,7 @@ type AlertResponse struct {
 }
 
 func (s *Server) UpdateAlert(w http.ResponseWriter, r *http.Request) {
+	logger.Log.Info("INFO starting alert to servers")
 	var alert Alert
 	sigKey := os.Getenv("SCRAPER_KEY")
 	err := json.NewDecoder(r.Body).Decode(&alert)
@@ -63,6 +64,7 @@ func (s *Server) UpdateAlert(w http.ResponseWriter, r *http.Request) {
 	}
 
 	go func(alert Alert) {
+		logger.Log.Info("Processing alert to servers")
 		s.Bot.SendUpdate(alert.ManhwaId, s.Bot)
 	}(alert)
 
