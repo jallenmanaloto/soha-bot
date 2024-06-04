@@ -16,6 +16,7 @@ const (
 // Command messages
 const (
 	MessageDefault          = "I don't know that trick! Just give me treats, you piece of shit!"
+	MessageDeleteSuccess    = "I successfully bury this title. arf! Give me treats, am good boi!"
 	MessageFetch            = "`!soha fetch:` Soha will fetch all the titles he is watching for you."
 	MessageHello            = "arf arf! What is it, you degenerate!"
 	MessageLook             = "`!soha look <title>:` Soha to look for a manhwa with that title."
