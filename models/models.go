@@ -13,10 +13,13 @@ type Manhwa struct {
 }
 
 type ServerManhwa struct {
-	PK       string
-	SK       string
-	ChanId   string
-	ServerId string
-	TitleId  string
-	Title    string
+	PK         string
+	SK         string
+	ChanId     string
+	ServerId   string
+	TitleId    string
+	Title      string
+	TitleCh    string
+	TitleImage string
+	TitleUrl   string
 }
