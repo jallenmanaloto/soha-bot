@@ -49,6 +49,7 @@ func (b *DiscordBot) commands(s *discordgo.Session, m *discordgo.MessageCreate) 
 	case constants.Command, constants.Tricks:
 		Tricks(s, m)
 	case constants.Fetch:
+		Fetch(s, m)
 	case constants.Hello:
 		Hello(s, m)
 	case constants.Look:

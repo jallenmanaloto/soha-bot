@@ -2,11 +2,13 @@ package bot
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/jallenmanaloto/soha-bot/internal/bot/utils"
 	"github.com/jallenmanaloto/soha-bot/internal/constants"
 	"github.com/jallenmanaloto/soha-bot/internal/database"
+	"github.com/jallenmanaloto/soha-bot/models"
 	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
@@ -18,7 +20,50 @@ func Default(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func Fetch(s *discordgo.Session, m *discordgo.MessageCreate) {
+	var serverManhwas []models.ServerManhwa
+	var err error
+	var message string
 
+	gid := m.GuildID
+	keys := constants.Keys{
+		PK: "SERVER",
+		SK: fmt.Sprintf("SERVER#%s", gid),
+	}
+
+	serverManhwas, err = database.SearchServerManhwas(keys)
+	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
+		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+		return
+	}
+
+	if serverManhwas == nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, constants.MessageEmptyWatchList)
+		return
+	}
+
+	for idx, manhwa := range serverManhwas {
+		n := idx + 1
+		title := fmt.Sprintf("%d. %s", n, strings.ToTitle(manhwa.Title))
+		deets := fmt.Sprintf(
+			constants.EmbedManhwaWatchList,
+			title,
+			manhwa.TitleId,
+			manhwa.TitleCh,
+			manhwa.TitleUrl,
+		)
+		message = message + deets
+	}
+
+	embed := discordgo.MessageEmbed{
+		Title:       constants.MessageWatchListTitle,
+		Description: message,
+	}
+	_, err = s.ChannelMessageSendEmbed(m.ChannelID, &embed)
+	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
+		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+	}
 }
 
 func Hello(s *discordgo.Session, m *discordgo.MessageCreate) {
