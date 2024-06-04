@@ -16,6 +16,7 @@ const (
 	ErrorUnmarshalItem   = "ERROR failed to unmarshal item: %v\n"
 	ErrorPutItem         = "ERROR failed to put item: %v\n"
 	ErrorQuery           = "ERROR failed to query items: %v\n"
+	ErrorUpdateItem      = "ERROR failed to update item: %v\n"
 )
 
 // Utils package Errors
