@@ -7,20 +7,20 @@ import (
 	"github.com/jallenmanaloto/soha-bot/models"
 )
 
-func GenerateKey(keyType string, val string) (string, string) {
+func GenerateKey(keyType string, val string, uid string) (string, string) {
 	var pk string
 	var sk string
 
 	if keyType == constants.ServerPK {
 		pk = constants.ServerPK
-		sk = fmt.Sprintf(constants.ServerSK, val)
+		sk = fmt.Sprintf(constants.ServerManhwaSK, val, uid)
 	}
 
 	return pk, sk
 }
 
 func FormServerManhwa(manhwa models.Manhwa, gid string, chId string) models.ServerManhwa {
-	pk, sk := GenerateKey("SERVER", gid)
+	pk, sk := GenerateKey("SERVER", gid, manhwa.ID)
 
 	serverManhwa := &models.ServerManhwa{
 		PK:       pk,
