@@ -17,6 +17,10 @@ func Default(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
+func Fetch(s *discordgo.Session, m *discordgo.MessageCreate) {
+
+}
+
 func Hello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_, err := s.ChannelMessageSend(m.ChannelID, constants.MessageHello)
 	if err != nil {
@@ -81,7 +85,7 @@ func Watch(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
 		SK: sk,
 	}
 
-	serverManhwa, err := database.SearchServerManhwas(keys, "TitleId", uid, constants.EQUALTO)
+	serverManhwa, err := database.SearchServerManhwasByTitle(keys, "TitleId", uid, constants.EQUALTO)
 	if err != nil {
 		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
 		logger.Log.Error(err)
