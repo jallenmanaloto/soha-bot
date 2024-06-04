@@ -127,6 +127,8 @@ func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
 		constants.MessageLook,
 		constants.MessageFetch,
 		constants.MessageWatch,
+		constants.MessageBury,
+		constants.MessageAlert,
 	)
 
 	embed := discordgo.MessageEmbed{
