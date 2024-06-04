@@ -31,6 +31,46 @@ func CreateServerManhwa(serverManhwa models.ServerManhwa) error {
 	return nil
 }
 
+func SearchServerManhwas(keys constants.Keys) ([]models.ServerManhwa, error) {
+	var serverManhwas []models.ServerManhwa
+	var err error
+	var response *dynamodb.QueryOutput
+
+	input := &dynamodb.QueryInput{
+		TableName: aws.String(dbInstance.TableName),
+	}
+
+	keyCon := expression.KeyAnd(expression.Key("PK").Equal(expression.Value(keys.PK)), expression.Key("SK").BeginsWith(keys.SK))
+	expr, err := expression.NewBuilder().WithKeyCondition(keyCon).Build()
+
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorBuildExpression, err)
+		return nil, err
+	}
+	input.ExpressionAttributeNames = expr.Names()
+	input.ExpressionAttributeValues = expr.Values()
+	input.FilterExpression = expr.Filter()
+	input.KeyConditionExpression = expr.KeyCondition()
+
+	response, err = dbInstance.db.Query(context.TODO(), input)
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorScan, err)
+		return nil, err
+	}
+
+	for _, item := range response.Items {
+		var serverManhwa models.ServerManhwa
+		err = attributevalue.UnmarshalMap(item, &serverManhwa)
+		if err != nil {
+			logger.Log.Errorf(constants.ErrorUnmarshalItem, err)
+			return nil, err
+		}
+		serverManhwas = append(serverManhwas, serverManhwa)
+	}
+
+	return serverManhwas, nil
+}
+
 func SearchServerManhwasByTitle(keys constants.Keys, exprName string, value string, op string) ([]models.ServerManhwa, error) {
 	var serverManhwas []models.ServerManhwa
 	var err error
