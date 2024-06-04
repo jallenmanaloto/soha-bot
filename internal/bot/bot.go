@@ -44,6 +44,8 @@ func (b *DiscordBot) commands(s *discordgo.Session, m *discordgo.MessageCreate) 
 
 	command := message[1]
 	switch command {
+	case constants.Bury:
+		Default(s, m)
 	case constants.Command, constants.Tricks:
 		Tricks(s, m)
 	case constants.Fetch:

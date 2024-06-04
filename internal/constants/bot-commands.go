@@ -3,6 +3,7 @@ package constants
 // Commands
 const (
 	Command = "command"
+	Bury    = "bury"
 	Default = "default"
 	Fetch   = "fetch"
 	Hello   = "hello"
