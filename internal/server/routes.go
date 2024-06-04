@@ -32,7 +32,7 @@ func (s *Server) Health(w http.ResponseWriter, r *http.Request) {
 
 type Alert struct {
 	Signature string `json:"signature"`
-	Title     string `json:"title"`
+	TitleCh   string `json:"titleCh"`
 	ManhwaId  string `json:"manhwaId"`
 }
 
@@ -65,7 +65,7 @@ func (s *Server) UpdateAlert(w http.ResponseWriter, r *http.Request) {
 
 	go func(alert Alert) {
 		logger.Log.Info("Processing alert to servers")
-		s.Bot.SendUpdate(alert.ManhwaId, s.Bot)
+		s.Bot.SendUpdate(alert.ManhwaId, alert.TitleCh, s.Bot)
 	}(alert)
 
 	mes := &AlertResponse{
