@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/jallenmanaloto/soha-bot/internal/constants"
 	"github.com/jallenmanaloto/soha-bot/internal/database/utils"
 	"github.com/jallenmanaloto/soha-bot/models"
@@ -126,4 +127,41 @@ func SearchServerManhwasByTitle(keys constants.Keys, exprName string, value stri
 	}
 
 	return serverManhwas, nil
+}
+
+func UpdateServerManhwaCh(keys constants.Keys, titleCh string) (map[string]interface{}, error) {
+	var err error
+	var response *dynamodb.UpdateItemOutput
+	var attribMap map[string]interface{}
+
+	avKeys, err := attributevalue.MarshalMap(keys)
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorMarshalItem, err)
+	}
+
+	update := expression.Set(expression.Name("TitleCh"), expression.Value(titleCh))
+	expr, err := expression.NewBuilder().WithUpdate(update).Build()
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorBuildExpression, err)
+	} else {
+		response, err = dbInstance.db.UpdateItem(context.TODO(), &dynamodb.UpdateItemInput{
+			TableName:                 aws.String(dbInstance.TableName),
+			Key:                       avKeys,
+			ExpressionAttributeNames:  expr.Names(),
+			ExpressionAttributeValues: expr.Values(),
+			UpdateExpression:          expr.Update(),
+			ReturnValues:              types.ReturnValueAllNew,
+		})
+
+		if err != nil {
+			logger.Log.Errorf(constants.ErrorUpdateItem, err)
+		} else {
+			err := attributevalue.UnmarshalMap(response.Attributes, &attribMap)
+			if err != nil {
+				logger.Log.Errorf(constants.ErrorUnmarshalItem, err)
+			}
+		}
+	}
+
+	return attribMap, err
 }
