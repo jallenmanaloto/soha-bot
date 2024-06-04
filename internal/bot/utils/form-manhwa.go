@@ -5,6 +5,7 @@ import (
 
 	"github.com/jallenmanaloto/soha-bot/internal/constants"
 	"github.com/jallenmanaloto/soha-bot/models"
+	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
 func GenerateKey(keyType string, val string, uid string) (string, string) {
@@ -21,10 +22,15 @@ func GenerateKey(keyType string, val string, uid string) (string, string) {
 
 func FormServerManhwa(manhwa models.Manhwa, gid string, chId string) models.ServerManhwa {
 	pk, sk := GenerateKey("SERVER", gid, manhwa.ID)
+	id, err := GenerateId()
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorGenerateId, err)
+	}
 
 	serverManhwa := &models.ServerManhwa{
 		PK:         pk,
 		SK:         sk,
+		ID:         id,
 		ChanId:     chId,
 		ServerId:   gid,
 		TitleId:    manhwa.ID,
