@@ -31,6 +31,20 @@ func CreateServerManhwa(serverManhwa models.ServerManhwa) error {
 	return nil
 }
 
+func DeleteServerManhwa(keys constants.Keys) error {
+	smKeys, err := attributevalue.MarshalMap(keys)
+	if err != nil {
+		logger.Log.Errorf(constants.ErrorMarshalItem, err)
+	}
+
+	_, err = dbInstance.db.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
+		TableName: aws.String(dbInstance.TableName),
+		Key:       smKeys,
+	})
+
+	return err
+}
+
 func SearchServerManhwas(keys constants.Keys) ([]models.ServerManhwa, error) {
 	var serverManhwas []models.ServerManhwa
 	var err error
