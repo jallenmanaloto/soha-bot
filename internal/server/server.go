@@ -4,19 +4,23 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/jallenmanaloto/soha-bot/internal/bot"
 )
 
 type Server struct {
 	port int
+	Bot  *bot.DiscordBot
 }
 
 const (
 	ServerPort = 8000
 )
 
-func NewServer() *http.Server {
+func NewServer(bot *bot.DiscordBot) *http.Server {
 	NewServer := &Server{
 		port: ServerPort,
+		Bot:  bot,
 	}
 
 	server := &http.Server{
