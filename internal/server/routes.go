@@ -62,8 +62,9 @@ func (s *Server) UpdateAlert(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// start operation
-	// go routine to send discord mess & send json
+	go func(alert Alert) {
+		s.Bot.SendUpdate(alert.ManhwaId, s.Bot)
+	}(alert)
 
 	mes := &AlertResponse{
 		Status:  200,
