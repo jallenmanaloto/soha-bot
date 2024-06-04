@@ -2,8 +2,8 @@ package constants
 
 // Server Primary and Sort Key
 const (
-	ServerPK = "SERVER"
-	ServerSK = "SERVER#%s"
+	ServerPK       = "SERVER"
+	ServerManhwaSK = "SERVER#%s##MANHWA#%s"
 )
 
 // General keys
