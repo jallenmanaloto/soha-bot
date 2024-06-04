@@ -31,7 +31,8 @@ func main() {
 
 	// starting server for http reqs
 	logger.Log.Info("INFO starting http server")
-	server := server.NewServer()
+	server := server.NewServer(bot)
+
 	err = server.ListenAndServe()
 	if err != nil {
 		logger.Log.Errorf("ERROR unable to start server: %v\n", err)
