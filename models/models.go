@@ -17,5 +17,6 @@ type ServerManhwa struct {
 	SK       string
 	ChanId   string
 	ServerId string
+	TitleId  string
 	Title    string
 }
