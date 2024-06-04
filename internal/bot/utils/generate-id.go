@@ -7,7 +7,7 @@ import (
 
 func GenerateId() (string, error) {
 	var id string
-	bytes := make([]byte, 16)
+	bytes := make([]byte, 6)
 	if _, err := rand.Read(bytes); err != nil {
 		return id, err
 	}
