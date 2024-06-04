@@ -4,7 +4,8 @@ package constants
 const (
 	DiscordUnexpectedHandler = "ERROR An unexpected error occured. Try again later."
 	ErrorDiscordMessage      = "ERROR unable to send message to channel."
-	ErrorDiscordMessageSend  = "arf! Something unexpected happened. Give me treats for now you 'lil shit."
+	ErrorDiscordMessageSend  = "arf! arf! Something unexpected happened. Give me treats for now you 'lil shit."
+	WatchAlreadyExist        = "arf! arf! I am already watching that title, dummy!"
 )
 
 // Dynamo DB Errors
@@ -14,4 +15,5 @@ const (
 	ErrorScan            = "ERROR failed to search manhwa via Scan: %v\n"
 	ErrorUnmarshalItem   = "ERROR failed to unmarshal item: %v\n"
 	ErrorPutItem         = "ERROR failed to put item: %v\n"
+	ErrorQuery           = "ERROR failed to query items: %v\n"
 )
