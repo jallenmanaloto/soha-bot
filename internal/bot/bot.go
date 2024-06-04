@@ -5,8 +5,10 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/jallenmanaloto/soha-bot/internal/bot/utils"
 	"github.com/jallenmanaloto/soha-bot/internal/constants"
 	"github.com/jallenmanaloto/soha-bot/internal/database"
+	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
 type DiscordBot struct {
@@ -58,5 +60,30 @@ func (b *DiscordBot) commands(s *discordgo.Session, m *discordgo.MessageCreate) 
 		Watch(s, m, message)
 	default:
 		Default(s, m)
+	}
+}
+
+func (b *DiscordBot) SendUpdate(manhwaId string, bot *DiscordBot) {
+	serverManhwas, err := database.SearchSubscribedToManhwa(manhwaId)
+	if err != nil {
+		logger.Log.Error(err)
+	}
+
+	for _, server := range serverManhwas {
+		chanId := server.ChanId
+		image := utils.ExtractUrl(server.TitleImage)
+		thumbnail := utils.EmbedThumbnail(image)
+		embed := utils.EmbedManhwa(server.TitleId, server.TitleCh, server.Title, server.TitleUrl, thumbnail)
+
+		_, err := bot.Session.ChannelMessageSend(chanId, constants.MessageFoundNewCh)
+		if err != nil {
+			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+		}
+
+		_, err = bot.Session.ChannelMessageSendEmbed(chanId, &embed)
+		if err != nil {
+			_, err := bot.Session.ChannelMessageSend(chanId, constants.ErrorDiscordMessageSend)
+			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+		}
 	}
 }
