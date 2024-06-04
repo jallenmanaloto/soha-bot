@@ -17,3 +17,8 @@ const (
 	ErrorPutItem         = "ERROR failed to put item: %v\n"
 	ErrorQuery           = "ERROR failed to query items: %v\n"
 )
+
+// Utils package Errors
+const (
+	ErrorGenerateId = "ERROR unable to generate a random ID: %v\n"
+)
