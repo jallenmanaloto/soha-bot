@@ -23,12 +23,15 @@ func FormServerManhwa(manhwa models.Manhwa, gid string, chId string) models.Serv
 	pk, sk := GenerateKey("SERVER", gid, manhwa.ID)
 
 	serverManhwa := &models.ServerManhwa{
-		PK:       pk,
-		SK:       sk,
-		ChanId:   chId,
-		ServerId: gid,
-		TitleId:  manhwa.ID,
-		Title:    manhwa.Title,
+		PK:         pk,
+		SK:         sk,
+		ChanId:     chId,
+		ServerId:   gid,
+		TitleId:    manhwa.ID,
+		Title:      manhwa.Title,
+		TitleCh:    manhwa.Chapters,
+		TitleImage: manhwa.Image,
+		TitleUrl:   manhwa.Url,
 	}
 	return *serverManhwa
 }
