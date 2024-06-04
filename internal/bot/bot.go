@@ -63,19 +63,28 @@ func (b *DiscordBot) commands(s *discordgo.Session, m *discordgo.MessageCreate) 
 	}
 }
 
-func (b *DiscordBot) SendUpdate(manhwaId string, bot *DiscordBot) {
+func (b *DiscordBot) SendUpdate(manhwaId string, titleCh string, bot *DiscordBot) {
 	serverManhwas, err := database.SearchSubscribedToManhwa(manhwaId)
 	if err != nil {
 		logger.Log.Error(err)
 	}
 
 	for _, server := range serverManhwas {
+		keys := constants.Keys{
+			PK: server.PK,
+			SK: server.SK,
+		}
+		_, err := database.UpdateServerManhwaCh(keys, titleCh)
+		if err != nil {
+			logger.Log.Errorf(constants.ErrorUpdateItem, err)
+		}
+
 		chanId := server.ChanId
 		image := utils.ExtractUrl(server.TitleImage)
 		thumbnail := utils.EmbedThumbnail(image)
-		embed := utils.EmbedManhwa(server.TitleId, server.TitleCh, server.Title, server.TitleUrl, thumbnail)
+		embed := utils.EmbedManhwa(server.TitleId, titleCh, server.Title, server.TitleUrl, thumbnail)
 
-		_, err := bot.Session.ChannelMessageSend(chanId, constants.MessageFoundNewCh)
+		_, err = bot.Session.ChannelMessageSend(chanId, constants.MessageFoundNewCh)
 		if err != nil {
 			logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
 		}
