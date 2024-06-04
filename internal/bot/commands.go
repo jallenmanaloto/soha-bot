@@ -74,7 +74,25 @@ func Tricks(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func Watch(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
+	pk, sk := utils.GenerateKey("SERVER", m.GuildID)
+	keys := constants.Keys{
+		PK: pk,
+		SK: sk,
+	}
+
 	uid := utils.ExtractTitle(param)
+	serverManhwa, err := database.SearchServerManhwas(keys, "TitleId", uid, constants.EQUALTO)
+	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
+		logger.Log.Error(err)
+		return
+	}
+
+	if serverManhwa != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, constants.WatchAlreadyExist)
+		return
+	}
+
 	manhwa, err := database.SearchManhwas("ID", uid, constants.EQUALTO)
 	if err != nil {
 		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
