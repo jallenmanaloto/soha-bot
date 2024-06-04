@@ -66,7 +66,6 @@ func SearchManhwas(exprName string, value string, op string) ([]models.Manhwa, e
 		TableName: aws.String(dbInstance.TableName),
 	}
 
-	// filtEx := expression.Name("Title").Contains(value)
 	filtEx = utils.GenerateFilterExpression(exprName, value, op)
 	expr, err := expression.NewBuilder().WithFilter(filtEx).Build()
 	if err != nil {
