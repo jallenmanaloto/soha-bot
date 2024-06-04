@@ -15,6 +15,7 @@ type Manhwa struct {
 type ServerManhwa struct {
 	PK         string
 	SK         string
+	ID         string
 	ChanId     string
 	ServerId   string
 	TitleId    string
