@@ -12,6 +12,24 @@ import (
 	"github.com/jallenmanaloto/soha-bot/pkg/logger"
 )
 
+func Bury(s *discordgo.Session, m *discordgo.MessageCreate, param []string) {
+	gid := m.GuildID
+	titleId := utils.ExtractTitle(param)
+	keys := constants.Keys{
+		PK: "SERVER",
+		SK: fmt.Sprintf("SERVER#%s##MANHWA#%s", gid, titleId),
+	}
+
+	err := database.DeleteServerManhwa(keys)
+	if err != nil {
+		_, err := s.ChannelMessageSend(m.ChannelID, constants.ErrorDiscordMessageSend)
+		logger.Log.Errorf("%s: %v\n", constants.ErrorDiscordMessage, err)
+		return
+	}
+
+	_, err = s.ChannelMessageSend(m.ChannelID, constants.MessageDeleteSuccess)
+}
+
 func Default(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_, err := s.ChannelMessageSend(m.ChannelID, constants.MessageDefault)
 	if err != nil {
