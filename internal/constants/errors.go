@@ -22,3 +22,10 @@ const (
 const (
 	ErrorGenerateId = "ERROR unable to generate a random ID: %v\n"
 )
+
+// HTTP Errors
+const (
+	ErrorJsonDecode = "ERROR failed to decode json body request: %v\n"
+	ErrorMarshalRes = "ERROR failed to marshal http response: %v\n"
+	Unauthorized    = "Unauthorized attempt. We cannot verify the signature key provided."
+)
