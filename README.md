@@ -1,17 +1,19 @@
 # Project soha-bot
 
-One Paragraph of project description goes here
+Soha-bot is a discord bot that scrapes manhwa websites and send an alert to subscribed server for any new chapters.
+
+Soha can look for a manhwa title. He can also watch titles for you and alert you for any new chapters he find.
+
+For the full list of commands, you can type `!soha tricks`.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+1. Install [Go](https://go.dev/) through their official website.
+2. Clone the repository to obtain a copy on your local machine.
+3. Change directory: `cd soha-bot`.
+4. Install dependencies `go mod download`.
 
 ## MakeFile
-
-run all make commands with clean tests
-```bash
-make all build
-```
 
 build the application
 ```bash
@@ -21,21 +23,6 @@ make build
 run the application
 ```bash
 make run
-```
-
-Create DB container
-```bash
-make docker-run
-```
-
-Shutdown DB container
-```bash
-make docker-down
-```
-
-live reload the application
-```bash
-make watch
 ```
 
 run the test suite
